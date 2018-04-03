@@ -1,0 +1,27 @@
+
+<div class="top-bar" id="tracker-menu">
+    <div class="top-bar-left">
+        <ul class="menu" id="tracker-main-menu-custom-style">
+        {% if login_status == True %}
+            <li class="{% if page_name == 'tracker_home' %}active{% endif %}">
+                <a href="/pharmacy">StarCare</a>
+            </li>
+        {% else %}
+            <li class="active"><a href="/">StarCare</a></li>
+        {% endif %}
+        </ul>
+  </div>
+  <div class="top-bar-right">
+    <ul class="menu">
+        {% if login_status == True %}
+            <li><input type="search" placeholder="Search"></li>
+            <li><button type="button" class="button">Search</button></li>
+            <li>
+                <a href="#" style="font-weight: bold !important;">
+                    <i class="fi-arrow-right"></i> &nbsp; Logout
+                </a>
+            </li>
+        {% endif %}
+    </ul>
+  </div>
+</div>

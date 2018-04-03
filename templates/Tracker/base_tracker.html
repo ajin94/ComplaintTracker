@@ -1,0 +1,61 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+{% block head %}
+    <title>{% block title %}{% endblock %}</title>
+    {% block meta %}
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="{% block meta_description %}{% endblock %}">
+        <meta name="author" content="{% block meta_author %}{% endblock %}">
+    {% endblock %}
+
+    {% block css_bootstrap %}
+        <link href='{% static "foundation/css/foundation.css" %}' rel="stylesheet">
+        <link href='{% static "foundation/foundation-icons/foundation-icons.css" %}' rel="stylesheet">
+        <link href='{% static "foundation/foundation-icons/foundation-icons.[eot/ttf/svg/woff]" %}' rel="stylesheet">
+        <link href='{% static "foundation/css/app.css" %}' rel="stylesheet">
+    {% endblock %}
+    {% block css_site %} {% endblock %}
+    {% block css_extra %} {% endblock %}
+
+    {% block js_html5_shim %}
+        <!--[if lt IE 9]>
+            <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+    {% endblock %}
+    {% block js_head %}
+    {% endblock %}
+{% endblock %}
+</head>
+
+{# TODO: write a class builder macro #}
+<body class="{% block body_classes %}{% endblock %}"
+      id="{% block body_id %}{% endblock %}"{% block bodytag_extra %}{% endblock %}>
+<!--main body for the site-->
+{% block body %}
+    <div class="row">
+        <!--side nav-->
+        {% include "Tracker/includes/main_nav.html" %}
+    </div>
+    <!-- page breadcrumbs-->
+    <div class="row" id="give-padding-for-base-page-breadcrumbs">
+        {% block bread_crumbs %} {% endblock %}
+    </div>
+    <!--main content for the site-->
+    <div class="grid-container fluid">
+        <!--main body content-->
+        {%block content_main%} {% endblock %}
+    </div>
+    <!--to add ending java scripts-->
+    {% block js_footer %}
+        <script src='{% static "foundation/js/vendor/jquery.js" %}'></script>
+        <script src='{% static "foundation/js/vendor/what-input.js" %}'></script>
+        <script src='{% static "foundation/js/vendor/foundation.js" %}'></script>
+        <script src='{% static "foundation/js/app.js" %}'></script>
+    {% endblock %}
+
+{% endblock %}
+</body>
+</html>

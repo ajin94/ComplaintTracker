@@ -1,11 +1,22 @@
 from django.db import models
 from datetime import datetime
-# Create your models here.
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+
+
+class Priority(models.Model):
+    name = models.CharField(max_length=50, null=False, blank=False)
+    created_date = models.DateTimeField(auto_now_add=True)
+    updated_date = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return '{}'.format(self.name)
 
 
 class Department(models.Model):
     name = models.CharField(max_length=150, null=False, blank=False)
     floor_number = models.PositiveIntegerField(null=False, blank=False)
+    contact_number = models.CharField(max_length=14, null=True, blank=True)
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
 
@@ -22,10 +33,28 @@ class TrackerStatus(models.Model):
         return '%s' % self.name
 
 
+class TrackerUsers(models.Model):
+    user = models.ForeignKey(User, null=False, blank=False, on_delete=models.DO_NOTHING)
+    department = models.ForeignKey(Department, null=True, blank=True, on_delete=models.DO_NOTHING)
+    created_date = models.DateTimeField(auto_now_add=True)
+    updated_date = models.DateTimeField(auto_now=True)
+
+
 class TrackerMaster(models.Model):
-    department_reporting = models.ForeignKey(Department, on_delete=models.DO_NOTHING)
-    department_reported = models.ForeignKey(Department, on_delete=models.DO_NOTHING)
+    from_department = models.ForeignKey(Department, on_delete=models.DO_NOTHING,
+                                        related_name='from_department')
+    to_department = models.ForeignKey(Department, on_delete=models.DO_NOTHING,
+                                      related_name='to_department')
     reason = models.TextField(null=False, blank=False)
     reported_date = models.DateTimeField(null=False, blank=False, default=datetime.now())
+    priority = models.ForeignKey(Priority, null=True, blank=True, on_delete=models.DO_NOTHING)
     complaint_status = models.ForeignKey(TrackerStatus, on_delete=models.DO_NOTHING)
     updated_date = models.DateTimeField(auto_now=True)
+
+
+def create_tracker_users(sender, **kwargs):
+    if kwargs['created']:
+        TrackerUsers.objects.create(user=kwargs['instance'])
+
+
+post_save.connect(create_tracker_users, sender=User)

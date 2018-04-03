@@ -1,0 +1,70 @@
+{% extends "Tracker/base_tracker.html" %}
+
+{% block title %} Tracker {% endblock %}
+
+<!-- breadcrumbs to the page -->
+{% block bread_crumbs %}
+<div class="grid-x grid-padding-x">
+    <div class="cell shrink">
+        <nav aria-label="You are here:" role="navigation" id="custom-breadcrumb-design">
+            <ul class="breadcrumbs" id="custom-breadcrumb-style">
+                <li><a href="/tracker">Tracker</a></li>
+            </ul>
+        </nav>
+    </div>
+</div>
+{% endblock %}
+
+{%block content_main%}
+    <div class="grid-x grid-margin-x">
+        <div class="cell large-offset-1 large-8">
+            <div class="cell small-6 medium-6 large-6">
+                <h3>Track Departmental Complaints</h3>
+            </div>
+        </div>
+        <div class="cell large-offset-1 large-8">
+            <table class="hover">
+                <thead>
+                    <tr>
+                        <th>From Department</th>
+                        <th>To Department</th>
+                        <th>Reason</th>
+                        <th>Reported On</th>
+                        <th>Priority</th>
+                        <th>Status</th>
+                        <th>Last Response On</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{ complaints.from_department}}</td>
+                        <td>{{ complaints.to_department}}</td>
+                        <td>{{ complaints.reason}}</td>
+                        <td>{{ complaints.reported_date}}</td>
+                        <td>{{ complaints.priority}}</td>
+                        <td>{{ complaints.complaint_status}}</td>
+                        <td>{{ complaints.updated_date}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="cell large-2">
+            <h1>so</h1>
+        </div>
+        <div class="cell large-offset-1 large-8">
+            <div class="cell small-6 medium-6 large-6">
+                <nav aria-label="Pagination">
+                    <ul class="pagination text-center">
+                        <li class="pagination-previous disabled">First <span class="show-for-sr">page</span></li>
+                        <li class="pagination-previous disabled">Previous <span class="show-for-sr">page</span></li>
+                        <li class="pagination-next"><a href="#" aria-label="Next page">Next <span class="show-for-sr">page</span></a></li>
+                        <li class="pagination-next"><a href="#" aria-label="Next page">Last <span class="show-for-sr">page</span></a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    {% include 'Tracker/includes/new_complaint.html' %}
+
+{% endblock %}
