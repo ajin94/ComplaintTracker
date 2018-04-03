@@ -41,10 +41,8 @@ class TrackerUsers(models.Model):
 
 
 class TrackerMaster(models.Model):
-    from_department = models.ForeignKey(Department, on_delete=models.DO_NOTHING,
-                                        related_name='from_department')
-    to_department = models.ForeignKey(Department, on_delete=models.DO_NOTHING,
-                                      related_name='to_department')
+    from_department = models.OneToOneField(Department, on_delete=models.DO_NOTHING, related_name='from_department')
+    to_department = models.ForeignKey(Department, on_delete=models.DO_NOTHING, related_name='to_department')
     reason = models.TextField(null=False, blank=False)
     reported_date = models.DateTimeField(null=False, blank=False, default=datetime.now())
     priority = models.ForeignKey(Priority, null=True, blank=True, on_delete=models.DO_NOTHING)

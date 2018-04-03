@@ -1,3 +1,25 @@
 <div id="new_complaint_button_container">
-    <button class="button large"><span class="fi-plus"></span></button>
+    <button class="button large" data-open="new_complaint_modal"><span class="fi-plus"></span></button>
+</div>
+
+<div class="small reveal" id="new_complaint_modal" data-reveal>
+    <form class="top-margin-20" method="post">
+        {% csrf_token %}
+        <div class="grid-x">
+            <div class="cell large-offset-1 large-10 text-center">
+                <h3>Register Complaint</h3>
+            </div>
+            <div class="cell large-offset-1 large-10">
+                {{ new_complaint }}
+            </div>
+            <div class="cell large-offset-1 large-10 text-center">
+                <button type="reset" id="cancel_button" class="button warning" data-close>Cancel</button>
+                <input type="submit" id="insert_button" class="button" value="SubmitComplaint">
+            </div>
+        </div>
+    </form>
+    <!-- button for closing the modal -->
+    <button class="close-button" data-close aria-label="Close modal" type="button">
+        <span aria-hidden="true">&times;</span>
+    </button>
 </div>

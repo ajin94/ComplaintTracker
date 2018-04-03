@@ -26,8 +26,8 @@
             <table class="hover">
                 <thead>
                     <tr>
-                        <th>From Department</th>
-                        <th>To Department</th>
+                        <th>Complaint From</th>
+                        <th>To</th>
                         <th>Reason</th>
                         <th>Reported On</th>
                         <th>Priority</th>
@@ -36,20 +36,23 @@
                     </tr>
                 </thead>
                 <tbody>
+
+                    {% for complaints in complaint_list %}
                     <tr>
-                        <td>{{ complaints.from_department}}</td>
-                        <td>{{ complaints.to_department}}</td>
-                        <td>{{ complaints.reason}}</td>
-                        <td>{{ complaints.reported_date}}</td>
-                        <td>{{ complaints.priority}}</td>
-                        <td>{{ complaints.complaint_status}}</td>
-                        <td>{{ complaints.updated_date}}</td>
+                        <td>{{ complaints.from_department }}</td>
+                        <td>{{ complaints.to_department }}</td>
+                        <td>{{ complaints.reason }}</td>
+                        <td>{{ complaints.reported_date }}</td>
+                        <td>{{ complaints.priority }}</td>
+                        <td>{{ complaints.complaint_status }}</td>
+                        <td>{{ complaints.updated_date }}</td>
                     </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </div>
-        <div class="cell large-2">
-            <h1>so</h1>
+        <div class="cell large-offset-1 large-2">
+            <h5>Filters</h5>
         </div>
         <div class="cell large-offset-1 large-8">
             <div class="cell small-6 medium-6 large-6">
