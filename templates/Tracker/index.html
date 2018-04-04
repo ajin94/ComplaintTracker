@@ -58,10 +58,19 @@
             <div class="cell small-6 medium-6 large-6">
                 <nav aria-label="Pagination">
                     <ul class="pagination text-center">
-                        <li class="pagination-previous disabled">First <span class="show-for-sr">page</span></li>
-                        <li class="pagination-previous disabled">Previous <span class="show-for-sr">page</span></li>
-                        <li class="pagination-next"><a href="#" aria-label="Next page">Next <span class="show-for-sr">page</span></a></li>
-                        <li class="pagination-next"><a href="#" aria-label="Next page">Last <span class="show-for-sr">page</span></a></li>
+                        <li class="pagination-previous"><a href="?page=1" aria-label="Next page">First
+                            <span class="show-for-sr">page</span></a></li>
+                        {% if complaint_list.has_previous %}
+                        <li class="pagination-previous"><a href="?page={{complaint_list.previous_page_number}}" aria-label="Next page">Previous
+                            <span class="show-for-sr">page</span></a></li>
+                        {% else %}
+                        <li class="pagination-previous disabled"><a href="#" aria-label="Next page">Previous
+                            <span class="show-for-sr">page</span></a></li>
+                        {% endif %}
+                        <li class="pagination-next"><a href="?page={{complaint_list.next_page_number}}" aria-label="Next page">Next
+                            <span class="show-for-sr">page</span></a></li>
+                        <li class="pagination-next"><a href="?page={{complaint_list.paginator.num_pages}}" aria-label="Next page">Last
+                            <span class="show-for-sr">page</span></a></li>
                     </ul>
                 </nav>
             </div>

@@ -3,7 +3,7 @@
 </div>
 
 <div class="small reveal" id="new_complaint_modal" data-reveal>
-    <form class="top-margin-20" method="post">
+    <form class="top-margin-20" method="post" action="">
         {% csrf_token %}
         <div class="grid-x">
             <div class="cell large-offset-1 large-10 text-center">
@@ -14,7 +14,7 @@
             </div>
             <div class="cell large-offset-1 large-10 text-center">
                 <button type="reset" id="cancel_button" class="button warning" data-close>Cancel</button>
-                <input type="submit" id="insert_button" class="button" value="SubmitComplaint">
+                <button type="submit" id="insert_button" class="button">Submit Complaint</button>
             </div>
         </div>
     </form>
