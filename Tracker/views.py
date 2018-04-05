@@ -22,14 +22,14 @@ def main_tracker(request):
             print("error")
         return redirect('main_tracker')
     else:
-        complaints_data = TrackerMaster.objects.all()
+        complaints_data = TrackerMaster.objects.order_by('-reported_date').all()
         if TrackerMaster.objects.count() > 10:
             paginator = Paginator(complaints_data, 10)
             page = request.GET.get('page', 1)
             try:
-                complaints_data = paginator.get_page(page)
+                complaints_data = paginator.page(page)
             except EmptyPage:
-                complaints_data = paginator.get_page(paginator.num_pages, orphans=TrackerMaster.objects.count() % 10)
+                complaints_data = paginator.page(paginator.num_pages)
     return render(request, 'Tracker/index.html',
                   {"page_name": "tracker_home",
                    "login_status": True,
