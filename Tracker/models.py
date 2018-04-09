@@ -40,7 +40,12 @@ class TrackerUsers(models.Model):
     updated_date = models.DateTimeField(auto_now=True)
 
 
+def generate_tracker_id():
+    return "CTID#{}".format(TrackerMaster.objects.count()+1)
+
+
 class TrackerMaster(models.Model):
+    complaint_id = models.CharField(max_length=50, null=False, blank=False, default=generate_tracker_id)
     from_department = models.ForeignKey(Department, on_delete=models.DO_NOTHING, related_name='from_department')
     to_department = models.ForeignKey(Department, on_delete=models.DO_NOTHING, related_name='to_department')
     reason = models.TextField(null=False, blank=False)

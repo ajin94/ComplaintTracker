@@ -3,11 +3,14 @@
 </div>
 
 <div class="small reveal" id="new_complaint_modal" data-reveal>
-    <form class="top-margin-20" method="post" action="">
+    <form class="top-margin-30" method="post" action="">
         {% csrf_token %}
         <div class="grid-x">
-            <div class="cell large-offset-1 large-10 text-center">
+            <div class="cell large-offset-1 large-5 text-left">
                 <h3>Register Complaint</h3>
+            </div>
+            <div class="cell large-offset-0 large-6 text-center">
+                <h3>Tracker ID: {{tracker_id}}</h3>
             </div>
             <div class="cell large-offset-1 large-10">
                 {{ new_complaint }}

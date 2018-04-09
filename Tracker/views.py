@@ -22,18 +22,27 @@ def main_tracker(request):
             print("error")
         return redirect('main_tracker')
     else:
-        complaints_data = TrackerMaster.objects.order_by('-reported_date').all()
-        if TrackerMaster.objects.count() > 10:
+        tracker_id = "CTID#{}".format(TrackerMaster.objects.count() + 1)
+
+        if request.GET.get('tc_id'):
+            requested_id = request.GET.get('tc_id', '')
+            complaints_data = TrackerMaster.objects.filter(complaint_id=requested_id.upper())
+        else:
+            complaints_data = TrackerMaster.objects.order_by('-reported_date').all()
+
+        if complaints_data.count() > 10:
             paginator = Paginator(complaints_data, 10)
             page = request.GET.get('page', 1)
             try:
                 complaints_data = paginator.page(page)
             except EmptyPage:
                 complaints_data = paginator.page(paginator.num_pages)
-    return render(request, 'Tracker/index.html',
-                  {"page_name": "tracker_home",
-                   "login_status": True,
-                   "complaint_list": complaints_data,
-                   'new_complaint': NewComplaintForm,
-                   }
-                  )
+        print(complaints_data)
+        return render(request, 'Tracker/index.html',
+                      {"page_name": "tracker_home",
+                       "login_status": True,
+                       "complaint_list": complaints_data,
+                       "new_complaint": NewComplaintForm,
+                       "tracker_id": tracker_id
+                       }
+                      )

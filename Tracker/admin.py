@@ -7,7 +7,8 @@ class AdminDepartment(admin.ModelAdmin):
 
 
 class AdminTrackMaster(admin.ModelAdmin):
-    list_display = ('from_department', 'to_department', 'reason', 'reported_date', 'priority', 'complaint_status')
+    list_display = ('complaint_id', 'from_department', 'to_department', 'reason', 'reported_date',
+                    'priority', 'complaint_status')
 
 
 class AdminPriority(admin.ModelAdmin):
