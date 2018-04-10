@@ -1,7 +1,7 @@
-from django.shortcuts import render, redirect, reverse
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.shortcuts import render, redirect
+from django.core.paginator import Paginator, EmptyPage
 from .models import TrackerMaster, TrackerStatus
-from django.contrib.auth.models import User
+from django.contrib.auth import authenticate
 from .forms import NewComplaintForm, UserLoginForm
 # Create your views here.
 
@@ -53,13 +53,24 @@ def main_tracker(request):
 
 def make_login(request):
     if request.method == 'POST':
+        username = request.POST.get('user_name', '')
+        password = request.POST.get('user_password', '')
 
-        username = request.POST.get('user_name')
-        password = request.POST.get('password')
-
-        if User.objects.get(username=username, password=password):
+        if authenticate(username=username, password=password):
+            request.session["user_department"] = True
             return redirect('main_tracker')
         else:
             return redirect('make_login')
     else:
-        return render(request, 'Tracker/login.html', {"login_form": UserLoginForm()})
+        if request.session.get('user_department'):
+            return redirect('main_tracker')
+        else:
+            return render(request, 'Tracker/login.html', {"login_form": UserLoginForm()})
+
+
+def logout_user(request):
+    try:
+        del request.session["user_department"]
+    except KeyError:
+        pass
+    return redirect('make_login')

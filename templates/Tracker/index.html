@@ -70,8 +70,13 @@
                         <li class="pagination-previous disabled"><a href="#" aria-label="Next page">Previous
                             <span class="show-for-sr">page</span></a></li>
                         {% endif %}
+                        {% if complaint_list.has_next %}
                         <li class="pagination-next"><a href="?page={{complaint_list.next_page_number}}" aria-label="Next page">Next
                             <span class="show-for-sr">page</span></a></li>
+                        {% else %}
+                        <li class="pagination-next"><a href="#" aria-label="Next page">Next
+                            <span class="show-for-sr">page</span></a></li>
+                        {% endif %}
                         <li class="pagination-next"><a href="?page={{complaint_list.paginator.num_pages}}" aria-label="Next page">Last
                             <span class="show-for-sr">page</span></a></li>
                     </ul>

@@ -26,6 +26,8 @@
 
 /*utils*/
 .top-margin-30{margin-top:30px !important;}
+.top-margin-110{margin-top:110px !important;}
+.bottom-margin-30{margin-bottom:30px !important;}
 .top-margin-20{margin-top:20px !important;}
 /*utils end*/
 
@@ -35,4 +37,5 @@
 
 /*login page css*/
 #staff_login_to_tracker{width:100%;}
+#login-surrounding-style{background-color: #e6e6e6; border-radius: 5px;}
 /*end of login page css*/

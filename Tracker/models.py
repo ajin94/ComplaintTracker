@@ -32,12 +32,18 @@ class TrackerStatus(models.Model):
     def __str__(self):
         return '%s' % self.name
 
+    class Meta:
+        verbose_name_plural = 'Tracker Status'
+
 
 class TrackerUsers(models.Model):
     user = models.ForeignKey(User, null=False, blank=False, on_delete=models.DO_NOTHING)
     department = models.ForeignKey(Department, null=True, blank=True, on_delete=models.DO_NOTHING)
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name_plural = 'Users'
 
 
 def generate_tracker_id():
@@ -53,6 +59,9 @@ class TrackerMaster(models.Model):
     priority = models.ForeignKey(Priority, null=True, blank=True, on_delete=models.DO_NOTHING)
     complaint_status = models.ForeignKey(TrackerStatus, on_delete=models.DO_NOTHING, default=1)
     updated_date = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name_plural = 'Complaint Tracker'
 
 
 def create_tracker_users(sender, **kwargs):
