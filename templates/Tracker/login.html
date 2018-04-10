@@ -1,7 +1,29 @@
-{% extends "InventoryManager/base_inventory.html" %}
+{% extends "Tracker/base_tracker.html" %}
+
+{% block title %} Index {% endblock %}
+
+{% block bread_crumbs %}
+<div class="grid-x grid-padding-x">
+    <div class="cell shrink">
+        <nav aria-label="You are here:" role="navigation" id="custom-breadcrumb-design">
+            <ul class="breadcrumbs" id="custom-breadcrumb-style">
+                <li><a href="/tracker/login">Login</a></li>
+            </ul>
+        </nav>
+    </div>
+</div>
+{% endblock %}
 
 {%block content_main%}
     <div>
-
+        <form method="POST">
+            {% csrf_token %}
+            <div class="grid-x">
+                <div class="cell large-2 large-offset-5">
+                    {{login_form}}
+                    <input type="submit" class="button expand" value="Login" id="staff_login_to_tracker"/>
+                </div>
+            </div>
+        </form>
     </div>
 {% endblock %}

@@ -6,3 +6,16 @@ class NewComplaintForm(forms.ModelForm):
     class Meta:
         model = TrackerMaster
         fields = ('from_department', 'to_department', 'reason', 'priority')
+
+
+class UserLoginForm(forms.Form):
+    user_name = forms.CharField(
+        required=True,
+        max_length=32
+    )
+
+    password = forms.CharField(
+        required=True,
+        max_length=60,
+        widget=forms.PasswordInput()
+    )

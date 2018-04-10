@@ -10,20 +10,20 @@
             <li class="active"><a href="/">StarCare</a></li>
         {% endif %}
         </ul>
-  </div>
-  <div class="top-bar-right">
-    <ul class="menu">
+    </div>
+    <div class="top-bar-right">
+        <ul class="menu">
         {% if login_status == True %}
-        <form class="top-margin-30" method="get" action="">
-            <li><input type="search" placeholder="Search" name="tc_id" type="text" id="complaint_id_text"></li>
-            <li><a type="submit" class="button" href="#" id="search_link">Search</a></li>
+        <form method="GET" action="" id="nav_search_form">
+            <li><input type="search" placeholder="Search" name="q" type="text" id="complaint_id_text" value="CTID#"></li>
+            <li><input type="submit" class="button" id="search_link" value="search"/></li>
         </form>
-            <li>
-                <a href="#" style="font-weight: bold !important;">
-                    <i class="fi-arrow-right"></i> &nbsp; Logout
-                </a>
-            </li>
+        <li>
+            <a href="#" style="font-weight: bold !important;">
+                <i class="fi-arrow-right"></i> &nbsp; Logout
+            </a>
+        </li>
         {% endif %}
-    </ul>
-  </div>
+        </ul>
+    </div>
 </div>

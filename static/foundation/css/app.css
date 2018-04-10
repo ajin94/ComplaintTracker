@@ -28,3 +28,11 @@
 .top-margin-30{margin-top:30px !important;}
 .top-margin-20{margin-top:20px !important;}
 /*utils end*/
+
+/* navbar styles */
+#nav_search_form li{ display: inline-block !important; }
+/*end of navbar styles*/
+
+/*login page css*/
+#staff_login_to_tracker{width:100%;}
+/*end of login page css*/

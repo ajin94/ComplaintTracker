@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect, reverse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .models import TrackerMaster, TrackerStatus
-from .forms import NewComplaintForm
+from django.contrib.auth.models import User
+from .forms import NewComplaintForm, UserLoginForm
 # Create your views here.
 
 
@@ -10,6 +11,9 @@ class Constants:
 
 
 def main_tracker(request):
+    # redirect login page if session not enabled
+    if not request.session.get('user_department'):
+        return redirect('make_login')
 
     if request.method == 'POST':
         input_data = NewComplaintForm(request.POST)
@@ -24,8 +28,8 @@ def main_tracker(request):
     else:
         tracker_id = "CTID#{}".format(TrackerMaster.objects.count() + 1)
 
-        if request.GET.get('tc_id'):
-            requested_id = request.GET.get('tc_id', '')
+        if request.GET.get('q'):
+            requested_id = request.GET.get('q', '')
             complaints_data = TrackerMaster.objects.filter(complaint_id=requested_id.upper())
         else:
             complaints_data = TrackerMaster.objects.order_by('-reported_date').all()
@@ -43,6 +47,19 @@ def main_tracker(request):
                        "login_status": True,
                        "complaint_list": complaints_data,
                        "new_complaint": NewComplaintForm,
-                       "tracker_id": tracker_id
-                       }
+                       "tracker_id": tracker_id}
                       )
+
+
+def make_login(request):
+    if request.method == 'POST':
+
+        username = request.POST.get('user_name')
+        password = request.POST.get('password')
+
+        if User.objects.get(username=username, password=password):
+            return redirect('main_tracker')
+        else:
+            return redirect('make_login')
+    else:
+        return render(request, 'Tracker/login.html', {"login_form": UserLoginForm()})
