@@ -41,7 +41,6 @@ def main_tracker(request):
                 complaints_data = paginator.page(page)
             except EmptyPage:
                 complaints_data = paginator.page(paginator.num_pages)
-        print(complaints_data)
         return render(request, 'Tracker/index.html',
                       {"page_name": "tracker_home",
                        "login_status": True,
