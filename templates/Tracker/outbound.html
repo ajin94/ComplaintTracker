@@ -8,7 +8,7 @@
     <div class="cell shrink">
         <nav aria-label="You are here:" role="navigation" id="custom-breadcrumb-design">
             <ul class="breadcrumbs" id="custom-breadcrumb-style">
-                <li><a href="/tracker">Tracker / Inbound</a></li>
+                <li><a href="/tracker">Tracker / Outbound</a></li>
             </ul>
         </nav>
     </div>
@@ -19,7 +19,7 @@
     <div class="grid-x grid-margin-x">
         <div class="cell large-offset-1 large-8">
             <div class="cell small-6 medium-6 large-6">
-                <h3>Inbound Complaints</h3>
+                <h3>Outbound Complaints</h3>
             </div>
         </div>
         <div class="cell large-offset-1 large-10">
@@ -27,13 +27,11 @@
                 <thead>
                     <tr>
                         <th>Tracker ID</th>
-                        <th>Complaint From</th>
+                        <th>Complaint To</th>
                         <th>Reason</th>
                         <th>Status</th>
                         <th>Priority</th>
                         <th>Reported On</th>
-                        <th>Resolved</th>
-                        <th>Respond</th>
                         <!--<th>Last Response On</th>-->
                         <!--<th>Actions</th>-->
                     </tr>
@@ -43,17 +41,12 @@
                     {% for complaints in complaint_list %}
                     <tr>
                         <td>{{ complaints.complaint_id }}</td>
-                        <td>{{ complaints.from_department }}</td>
+                        <td>{{ complaints.to_department }}</td>
                         <td>{{ complaints.reason }}</td>
                         <td>{{ complaints.complaint_status }}</td>
                         <td>{{ complaints.priority }}</td>
                         <td>{{ complaints.reported_date }}</td>
-                        <td>
-                            <button data-complaintID="{{ complaints.id }}" class="mark_resolved"><span class="fi-check"></span></button>
-                        </td>
-                        <td>
-                            <button><span class="fi-mail"></span></button>
-                        </td>
+                        <!--<td>{{ complaints.updated_date }}</td>-->
                         <!--<td></td>-->
                     </tr>
                     {% endfor %}

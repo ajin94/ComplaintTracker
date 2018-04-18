@@ -76,12 +76,8 @@ WSGI_APPLICATION = 'ComplaintTracker.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'sc_intrabase',
-        'USER': 'root',
-        'PASSWORD': 'starcare',
-        'HOST': 'localhost',
-        'PORT': ''
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
