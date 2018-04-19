@@ -8,7 +8,7 @@
     <div class="cell shrink">
         <nav aria-label="You are here:" role="navigation" id="custom-breadcrumb-design">
             <ul class="breadcrumbs" id="custom-breadcrumb-style">
-                <li><a href="/tracker">Tracker / Outbound</a></li>
+                <li><a href="/tracker">Tracker / Inbound</a></li>
             </ul>
         </nav>
     </div>
@@ -17,46 +17,38 @@
 
 {%block content_main%}
     <div class="grid-x grid-margin-x">
-        <div class="cell large-offset-1 large-8">
+        <div class="cell large-offset-2 large-8">
             <div class="cell small-6 medium-6 large-6">
-                <h3>Outbound Complaints</h3>
+                <h3>Inbound Complaints</h3>
             </div>
         </div>
-        <div class="cell large-offset-1 large-10">
+        <div class="cell large-offset-2 large-8">
             <table class="hover">
                 <thead>
                     <tr>
-                        <th>Tracker ID</th>
-                        <th>Complaint To</th>
-                        <th>Reason</th>
+                        <th>Message From</th>
+                        <th>Response For</th>
+                        <th>Message</th>
                         <th>Status</th>
-                        <th>Priority</th>
-                        <th>Reported On</th>
-                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-
-                    {% for complaints in complaint_list %}
+                    {% for message in message_list %}
                     <tr>
-                        <td>{{ complaints.complaint_id }}</td>
-                        <td>{{ complaints.to_department }}</td>
-                        <td>{{ complaints.reason }}</td>
-                        <td>{{ complaints.complaint_status }}</td>
-                        <td>{{ complaints.priority }}</td>
-                        <td>{{ complaints.reported_date }}</td>
-                        <td>
-                            <button class="delete_entry">
-                                <span class="fi-trash give-color-red deletion_confirmation"
-                                data-complaintID="{{ complaints.id }}"></span>
-                            </button>
-                        </td>
+                        <td>{{ message.from_department }}</td>
+                        <td>{{ message.response_to_complaint }}</td>
+                        <td>{{ message.message }}</td>
+                        {% if message.status == 1 %}
+                        <td><b>Mark as read</b></td>
+                        {% else %}
+                        <td><b>Read</b></td>
+                        {% endif %}
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
-        <div class="cell large-offset-1 large-10">
+        <div class="cell large-offset-2 large-8">
             <div class="cell small-6 medium-6 large-6">
                 <nav aria-label="Pagination">
                     <ul class="pagination text-center">
@@ -83,8 +75,5 @@
             </div>
         </div>
     </div>
-
     {% include 'Tracker/includes/new_complaint.html' %}
-    {% include 'Tracker/includes/deletion_modal.html' %}
-
 {% endblock %}

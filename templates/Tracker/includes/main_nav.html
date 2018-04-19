@@ -3,21 +3,21 @@
     <div class="top-bar-left">
         <ul class="menu" id="tracker-main-menu-custom-style">
         {% if login_status == True %}
-            <li class="{% if page_name == 'tracker_home' %}active{% endif %}">
-                <a href="/tracker">StarCare</a>
+            <li class="active">
+                <a href="{% url 'main_tracker' %}">StarCare</a>
             </li>
-            <li>
-                <a href="{% url 'main_tracker' %}" style="font-weight: bold !important;">
+            <li class="{% if page_name == 'tracker_home' %}new_active{% endif %}">
+                <a href="{% url 'main_tracker' %}">
                     <i class="fi-download"></i> &nbsp; InBound
                 </a>
             </li>
-            <li>
-                <a href="{% url 'out_bound_complaints' %}" style="font-weight: bold !important;">
+            <li class="{% if page_name == 'tracker_out_bound' %}new_active{% endif %}">
+                <a href="{% url 'out_bound_complaints' %}">
                     <i class="fi-upload"></i> &nbsp; OutBound
                 </a>
             </li>
-            <li>
-                <a href="#" style="font-weight: bold !important;">
+            <li class="{% if page_name == 'notifications' %}new_active{% endif %}">
+                <a href="{% url 'notification' %}">
                     <i class="fi-mail"></i> &nbsp; Notifications
                 </a>
             </li>
@@ -34,7 +34,7 @@
             <li><input type="submit" class="button" id="search_link" value="search"/></li>
         </form>
         <li>
-            <a href="logout/" style="font-weight: bold !important;">
+            <a href="{% url 'logout_user' %}" style="font-weight: bold !important;">
                 <i class="fi-arrow-right"></i> &nbsp; Logout
             </a>
         </li>

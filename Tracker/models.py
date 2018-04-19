@@ -60,8 +60,24 @@ class TrackerMaster(models.Model):
     complaint_status = models.ForeignKey(TrackerStatus, on_delete=models.DO_NOTHING, default=1)
     updated_date = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return '%s' % self.complaint_id
+
     class Meta:
         verbose_name_plural = 'Complaint Tracker'
+
+
+class ResponseMessage(models.Model):
+    from_department = models.ForeignKey(Department, on_delete=models.DO_NOTHING, related_name='department_from')
+    to_department = models.ForeignKey(Department, on_delete=models.DO_NOTHING, related_name='department_to')
+    response_to_complaint = models.ForeignKey(TrackerMaster, on_delete=models.DO_NOTHING)
+    message = models.TextField(max_length=300, null=False, blank=False)
+    status = models.SmallIntegerField(default=1)
+    created_date = models.DateTimeField(auto_now_add=True)
+    updated_date = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name_plural = 'Tracker Notifications'
 
 
 def create_tracker_users(sender, **kwargs):
@@ -70,3 +86,4 @@ def create_tracker_users(sender, **kwargs):
 
 
 post_save.connect(create_tracker_users, sender=User)
+

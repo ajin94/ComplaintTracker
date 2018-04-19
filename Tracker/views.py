@@ -1,11 +1,10 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.core.paginator import Paginator, EmptyPage
-from .models import TrackerMaster, TrackerStatus, TrackerUsers, Department
+from .models import TrackerMaster, TrackerStatus, TrackerUsers, Department, ResponseMessage
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
-from .forms import NewComplaintForm, UserLoginForm
-# Create your views here.
+from .forms import NewComplaintForm, UserLoginForm, NewNotification
 
 
 class Constants:
@@ -50,6 +49,7 @@ def main_tracker(request):
                       {"page_name": "tracker_home",
                        "login_status": True,
                        "complaint_list": complaints_data,
+                       "responses": NewNotification,
                        "new_complaint": NewComplaintForm,
                        "tracker_id": tracker_id}
                       )
@@ -89,12 +89,53 @@ def out_bound_complaints(request):
             except EmptyPage:
                 complaints_data = paginator.page(paginator.num_pages)
         return render(request, 'Tracker/outbound.html',
-                      {"page_name": "tracker_home",
+                      {"page_name": "tracker_out_bound",
                        "login_status": True,
                        "complaint_list": complaints_data,
                        "new_complaint": NewComplaintForm,
                        "tracker_id": tracker_id}
                       )
+
+
+def notification(request):
+    # redirect login page if session not enabled
+    dept_id = request.session.get('user_department')
+    if not dept_id:
+        return redirect('make_login')
+
+    if request.method == 'GET':
+        tracker_id = "CTID#{}".format(TrackerMaster.objects.count() + 1)
+        dept = Department.objects.get(id=int(dept_id))
+        message_data = ResponseMessage.objects.filter(to_department=dept).order_by('-created_date')
+
+        if message_data.count() > 10:
+            paginator = Paginator(message_data, 10)
+            page = request.GET.get('page', 1)
+            try:
+                message_data = paginator.page(page)
+            except EmptyPage:
+                message_data = paginator.page(paginator.num_pages)
+        return render(request, 'Tracker/notifications.html',
+                      {"page_name": "notifications",
+                       "login_status": True,
+                       "message_list": message_data,
+                       "new_complaint": NewComplaintForm,
+                       "tracker_id": tracker_id}
+                      )
+
+
+def send_message(request):
+    if request.method == 'POST':
+        input_data = NewNotification(request.POST)
+        if input_data.is_valid():
+            input_data_stream = input_data.save(commit=False)
+            tracker_obj = TrackerMaster.objects.get(id=int(request.POST.get("response_to_complaint")))
+            input_data_stream.from_department = tracker_obj.to_department
+            input_data_stream.to_department = tracker_obj.from_department
+            input_data_stream.save()
+        else:
+            print("error")
+        return redirect('main_tracker')
 
 
 def make_login(request):
@@ -125,9 +166,14 @@ def logout_user(request):
     return redirect('make_login')
 
 
-# ajax requests
 def ajax_mark_as_resolved(request):
-    complaint_id = request.POST.get('complaint_id', '')
-    print(complaint_id)
-    return 
-# end
+    complaint_id = int(request.POST.get('complaint_id', ''))
+    status_obj = TrackerStatus.objects.get(id=2)
+    TrackerMaster.objects.filter(id=complaint_id).update(complaint_status=status_obj)
+    return HttpResponse("success")
+
+
+def ajax_delete_entry(request):
+    # complaint_id = int(request.POST.get('complaint_id', ''))
+    # TrackerMaster.objects.filter(id=complaint_id).delete()
+    return HttpResponse(5)

@@ -1,0 +1,27 @@
+<div id="new_message_response">
+    <button class="button large" data-open="new_response_modal" data-department_id>
+        <span class="fi-comment"></span>
+    </button>
+</div>
+
+<div class="tiny reveal" id="new_response_modal" data-reveal>
+    <form class="top-margin-30" method="post" action="{% url 'send_message' %}">
+        {% csrf_token %}
+        <div class="grid-x">
+            <div class="cell large-offset-1 large-10 text-left">
+                <h3>Send Response</h3>
+            </div>
+            <div class="cell large-offset-1 large-10">
+                {{ responses }}
+            </div>
+            <div class="cell large-offset-1 large-10 text-center">
+                <button type="reset" id="cancel_button" class="button warning" data-close>Cancel</button>
+                <button type="submit" id="insert_button" class="button">Respond</button>
+            </div>
+        </div>
+    </form>
+    <!-- button for closing the modal -->
+    <button class="close-button" data-close aria-label="Close modal" type="button">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>

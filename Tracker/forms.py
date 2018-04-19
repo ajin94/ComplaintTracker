@@ -1,5 +1,5 @@
 from django import forms
-from .models import TrackerMaster
+from .models import TrackerMaster, ResponseMessage
 
 
 class NewComplaintForm(forms.ModelForm):
@@ -19,3 +19,9 @@ class UserLoginForm(forms.Form):
         max_length=60,
         widget=forms.PasswordInput()
     )
+
+
+class NewNotification(forms.ModelForm):
+    class Meta:
+        model = ResponseMessage
+        fields = ('response_to_complaint', 'message')

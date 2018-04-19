@@ -22,11 +22,18 @@ class AdminTrackerStatus(admin.ModelAdmin):
 class AdminTrackerUser(admin.ModelAdmin):
     list_display = ('user', 'department')
 
+
+class AdminResponseMessage(admin.ModelAdmin):
+    list_display = ('from_department', 'to_department', 'response_to_complaint',
+                    'message', 'status', 'created_date', 'updated_date')
+
+
 admin.site.register(TrackerMaster, AdminTrackMaster)
 admin.site.register(Department, AdminDepartment)
 admin.site.register(Priority, AdminPriority)
 admin.site.register(TrackerStatus, AdminTrackerStatus)
 admin.site.register(TrackerUsers, AdminTrackerUser)
+admin.site.register(ResponseMessage, AdminResponseMessage)
 
 admin.site.site_header = "STARCARE- Tracker"
 admin.site.site_title = "Complaint Tracker"

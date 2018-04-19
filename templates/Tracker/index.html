@@ -33,9 +33,6 @@
                         <th>Priority</th>
                         <th>Reported On</th>
                         <th>Resolved</th>
-                        <th>Respond</th>
-                        <!--<th>Last Response On</th>-->
-                        <!--<th>Actions</th>-->
                     </tr>
                 </thead>
                 <tbody>
@@ -48,13 +45,15 @@
                         <td>{{ complaints.complaint_status }}</td>
                         <td>{{ complaints.priority }}</td>
                         <td>{{ complaints.reported_date }}</td>
-                        <td>
-                            <button data-complaintID="{{ complaints.id }}" class="mark_resolved"><span class="fi-check"></span></button>
-                        </td>
-                        <td>
-                            <button><span class="fi-mail"></span></button>
-                        </td>
-                        <!--<td></td>-->
+                        {% if complaints.complaint_status_id == 1 %}
+                            <td>
+                                <button data-complaintID="{{ complaints.id }}" class="mark_resolved">
+                                    <span class="fi-check give-color-green"></span>
+                                </button>
+                            </td>
+                        {% else %}
+                            <td></td>
+                        {% endif %}
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -87,7 +86,6 @@
             </div>
         </div>
     </div>
-
     {% include 'Tracker/includes/new_complaint.html' %}
-
+    {% include 'Tracker/includes/response_message.html' %}
 {% endblock %}
