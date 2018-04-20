@@ -8,7 +8,7 @@
     <div class="cell shrink">
         <nav aria-label="You are here:" role="navigation" id="custom-breadcrumb-design">
             <ul class="breadcrumbs" id="custom-breadcrumb-style">
-                <li><a href="/tracker">Tracker / Inbound</a></li>
+                <li><a href="/tracker">Tracker / Messages</a></li>
             </ul>
         </nav>
     </div>
@@ -19,59 +19,114 @@
     <div class="grid-x grid-margin-x">
         <div class="cell large-offset-2 large-8">
             <div class="cell small-6 medium-6 large-6">
-                <h3>Inbound Complaints</h3>
+                <h3>Complaint Responses</h3>
             </div>
         </div>
         <div class="cell large-offset-2 large-8">
-            <table class="hover">
-                <thead>
-                    <tr>
-                        <th>Message From</th>
-                        <th>Response For</th>
-                        <th>Message</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for message in message_list %}
-                    <tr>
-                        <td>{{ message.from_department }}</td>
-                        <td>{{ message.response_to_complaint }}</td>
-                        <td>{{ message.message }}</td>
-                        {% if message.status == 1 %}
-                        <td><b>Mark as read</b></td>
-                        {% else %}
-                        <td><b>Read</b></td>
-                        {% endif %}
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-        <div class="cell large-offset-2 large-8">
-            <div class="cell small-6 medium-6 large-6">
-                <nav aria-label="Pagination">
-                    <ul class="pagination text-center">
-                        <li class="pagination-previous"><a href="?page=1" aria-label="Next page">First
-                            <span class="show-for-sr">page</span></a></li>
-                        {% if complaint_list.has_previous %}
-                        <li class="pagination-previous"><a href="?page={{complaint_list.previous_page_number}}" aria-label="Next page">Previous
-                            <span class="show-for-sr">page</span></a></li>
-                        {% else %}
-                        <li class="pagination-previous disabled"><a href="#" aria-label="Next page">Previous
-                            <span class="show-for-sr">page</span></a></li>
-                        {% endif %}
-                        {% if complaint_list.has_next %}
-                        <li class="pagination-next"><a href="?page={{complaint_list.next_page_number}}" aria-label="Next page">Next
-                            <span class="show-for-sr">page</span></a></li>
-                        {% else %}
-                        <li class="pagination-next"><a href="#" aria-label="Next page">Next
-                            <span class="show-for-sr">page</span></a></li>
-                        {% endif %}
-                        <li class="pagination-next"><a href="?page={{complaint_list.paginator.num_pages}}" aria-label="Next page">Last
-                            <span class="show-for-sr">page</span></a></li>
-                    </ul>
-                </nav>
+            <ul class="tabs" data-active-collapse="true" data-tabs id="collapsing-tabs">
+              <li class="tabs-title is-active"><a href="#inbox_items" aria-selected="true">Inbox</a></li>
+              <li class="tabs-title"><a href="#outbox_items">Outbox</a></li>
+            </ul>
+
+            <div class="tabs-content" data-tabs-content="collapsing-tabs">
+                <div class="tabs-panel is-active" id="inbox_items">
+                    <table class="hover">
+                        <thead>
+                            <tr>
+                                <th>Message From</th>
+                                <th>Response For</th>
+                                <th>Message</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for message in message_recieved %}
+                            <tr>
+                                <td>{{ message.from_department }}</td>
+                                <td>{{ message.response_to_complaint }}</td>
+                                <td>{{ message.message }}</td>
+                                {% if message.status == 1 %}
+                                <td><button class="mark_as_read" data-messageID="{{message.id}}">Mark as read</button></td>
+                                {% else %}
+                                <td><b>Read</b></td>
+                                {% endif %}
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <div class="cell large-12">
+                        <div class="cell small-6 medium-6 large-6">
+                            <nav aria-label="Pagination">
+                                <ul class="pagination text-center">
+                                    <li class="pagination-previous"><a href="?page=1" aria-label="Next page">First
+                                        <span class="show-for-sr">page</span></a></li>
+                                    {% if message_recieved.has_previous %}
+                                    <li class="pagination-previous"><a href="?page={{message_recieved.previous_page_number}}" aria-label="Next page">Previous
+                                        <span class="show-for-sr">page</span></a></li>
+                                    {% endif %}
+                                    {% if message_recieved.has_next %}
+                                    <li class="pagination-next"><a href="?page={{message_recieved.next_page_number}}" aria-label="Next page">Next
+                                        <span class="show-for-sr">page</span></a></li>
+                                    {% else %}
+                                    <li class="pagination-next"><a href="#" aria-label="Next page">Next
+                                        <span class="show-for-sr">page</span></a></li>
+                                    {% endif %}
+                                    <li class="pagination-next"><a href="?page={{message_recieved.paginator.num_pages}}" aria-label="Next page">Last
+                                        <span class="show-for-sr">page</span></a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+                <div class="tabs-panel" id="outbox_items">
+                    <table class="hover">
+                        <thead>
+                            <tr>
+                                <th>Message To</th>
+                                <th>Response For</th>
+                                <th>Message</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for message in message_send %}
+                            <tr>
+                                <td>{{ message.to_department }}</td>
+                                <td>{{ message.response_to_complaint }}</td>
+                                <td>{{ message.message }}</td>
+                                {% if message.status == 1 %}
+                                <td><b>Unread</b></td>
+                                {% else %}
+                                <td><b>Read</b></td>
+                                {% endif %}
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <div class="cell large-12">
+                        <div class="cell small-6 medium-6 large-6">
+                            <nav aria-label="Pagination">
+                                <ul class="pagination text-center">
+                                    <li class="pagination-previous"><a href="?page=1" aria-label="Next page">First
+                                        <span class="show-for-sr">page</span></a></li>
+                                    {% if message_send.has_previous %}
+                                    <li class="pagination-previous"><a href="?page={{message_send.previous_page_number}}" aria-label="Next page">Previous
+                                        <span class="show-for-sr">page</span></a></li>
+                                    {% endif %}
+                                    {% if complaint_list.has_next %}
+                                    <li class="pagination-next"><a href="?page={{message_send.next_page_number}}" aria-label="Next page">Next
+                                        <span class="show-for-sr">page</span></a></li>
+                                    {% else %}
+                                    <li class="pagination-next"><a href="#" aria-label="Next page">Next
+                                        <span class="show-for-sr">page</span></a></li>
+                                    {% endif %}
+                                    <li class="pagination-next"><a href="?page={{message_send.paginator.num_pages}}" aria-label="Next page">Last
+                                        <span class="show-for-sr">page</span></a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

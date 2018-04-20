@@ -28,8 +28,8 @@
 }
 
 .new_active a{
+    background-color: white !important;
     font-weight: bold !important; color: #1779ba !important;
-    border-radius: 13px !important;
 }
 
 /*utils*/

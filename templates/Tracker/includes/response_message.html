@@ -12,6 +12,15 @@
                 <h3>Send Response</h3>
             </div>
             <div class="cell large-offset-1 large-10">
+                Response to Complaint ID:
+                <select name="complaint_ID">
+                    <option selected disabled>Select a Complaint</option>
+                    {% for resp in to_respond_list %}
+                        <option value="{{ resp.id }}">{{resp.complaint_id}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="cell large-offset-1 large-10">
                 {{ responses }}
             </div>
             <div class="cell large-offset-1 large-10 text-center">

@@ -32,7 +32,7 @@
                         <th>Status</th>
                         <th>Priority</th>
                         <th>Reported On</th>
-                        <th>Actions</th>
+                        <!--<th>Actions</th>-->
                     </tr>
                 </thead>
                 <tbody>
@@ -45,12 +45,12 @@
                         <td>{{ complaints.complaint_status }}</td>
                         <td>{{ complaints.priority }}</td>
                         <td>{{ complaints.reported_date }}</td>
-                        <td>
-                            <button class="delete_entry">
-                                <span class="fi-trash give-color-red deletion_confirmation"
-                                data-complaintID="{{ complaints.id }}"></span>
-                            </button>
-                        </td>
+                        <!--<td>-->
+                            <!--<button class="delete_entry">-->
+                                <!--<span class="fi-trash give-color-red deletion_confirmation"-->
+                                <!--data-complaintID="{{ complaints.id }}"></span>-->
+                            <!--</button>-->
+                        <!--</td>-->
                     </tr>
                     {% endfor %}
                 </tbody>

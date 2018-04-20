@@ -5,7 +5,7 @@ from .models import TrackerMaster, ResponseMessage
 class NewComplaintForm(forms.ModelForm):
     class Meta:
         model = TrackerMaster
-        fields = ('from_department', 'to_department', 'reason', 'priority')
+        fields = ('reason', 'priority')
 
 
 class UserLoginForm(forms.Form):
@@ -24,4 +24,4 @@ class UserLoginForm(forms.Form):
 class NewNotification(forms.ModelForm):
     class Meta:
         model = ResponseMessage
-        fields = ('response_to_complaint', 'message')
+        fields = ('message',)

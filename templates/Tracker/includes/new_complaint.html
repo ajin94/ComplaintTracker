@@ -3,7 +3,7 @@
 </div>
 
 <div class="small reveal" id="new_complaint_modal" data-reveal>
-    <form class="top-margin-30" method="post" action="">
+    <form class="top-margin-30" method="post" action="{% url 'insert_to_tracker' %}">
         {% csrf_token %}
         <div class="grid-x">
             <div class="cell large-offset-1 large-5 text-left">
@@ -11,6 +11,15 @@
             </div>
             <div class="cell large-offset-0 large-6 text-center">
                 <h3>Tracker ID: {{tracker_id}}</h3>
+            </div>
+            <div class="cell large-offset-1 large-10 top-margin-20">
+                To Department:
+                <select name="to_dept">
+                    <option selected disabled>Select a department</option>
+                    {% for depts in to_departments %}
+                        <option value="{{ depts.id }}">{{depts.name}}</option>
+                    {% endfor %}
+                </select>
             </div>
             <div class="cell large-offset-1 large-10">
                 {{ new_complaint }}
