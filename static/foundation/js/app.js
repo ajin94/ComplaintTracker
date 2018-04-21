@@ -3,14 +3,7 @@ $(document).foundation();
 $(document).ready(function(){
    $('.mark_resolved').click(function(){
        //setting up csrf token
-        var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
-        $.ajaxSetup({
-            beforeSend: function(xhr, settings) {
-                if(!csrfSafeMethod(settings.type) && !this.crossDomain) {
-                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
-                }
-            }
-        });
+        setup_ajax();
         //making ajax request
         $.ajax({
             type: 'post',
@@ -29,14 +22,52 @@ $(document).ready(function(){
         });
    });
 
-   $('.send_response').click(function(){
-       alert("working");
-       // $('#new_response_modal').foundation('open');
-       // $('#id_from_department').change(function(){
-       //     $('#id_from_department').val(1);
-       // });
+   $('.mark_as_read').click(function(e){
+       setup_ajax();
+       $.ajax({
+           type: 'post',
+           url: 'ajax_mark_as_read/',
+           data: {
+               messageID: parseInt($(this).attr('data-messageID'))
+           },
+           success: function(args){
+               if (args == "success"){
+                    window.location.reload();
+               }
+           },
+           error: function(){
+               alert("Temporary Error! Contact Admin");
+           }
+       });
    });
 });
+
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+function setup_ajax(){
+    var csrftoken = getCookie('csrftoken');
+    $.ajaxSetup({
+        beforeSend: function(xhr, settings) {
+            if(!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        }
+    });
+}
 
 function csrfSafeMethod(method) {
     // these HTTP methods do not require CSRF protection

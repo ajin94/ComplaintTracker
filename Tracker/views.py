@@ -73,9 +73,10 @@ def insert_to_tracker(request):
 
 def out_bound_complaints(request):
     # redirect login page if session not enabled
-    dept_id = request.session.get('user_session')[0][0]
-    if not dept_id:
+    if not request.session.get('user_session'):
         return redirect('make_login')
+    else:
+        dept_id = request.session.get('user_session')[0][0]
 
     if request.method == 'GET':
         tracker_id = "CTID#{}".format(TrackerMaster.objects.count() + 1)
@@ -107,26 +108,27 @@ def out_bound_complaints(request):
 
 def notification(request):
     # redirect login page if session not enabled
-    dept_id = request.session.get('user_session')[0][0]
-    if not dept_id:
+    if not request.session.get('user_session'):
         return redirect('make_login')
+    else:
+        dept_id = request.session.get('user_session')[0][0]
 
     if request.method == 'GET':
         tracker_id = "CTID#{}".format(TrackerMaster.objects.count() + 1)
         dept = Department.objects.get(id=int(dept_id))
-        message_data_recieved = ResponseMessage.objects.filter(to_department=dept).order_by('-created_date')
+        message_data_received = ResponseMessage.objects.filter(to_department=dept).order_by('-created_date')
         message_data_send = ResponseMessage.objects.filter(from_department=dept).order_by('-created_date')
         to_departments = Department.objects.filter(~q(id=dept_id))
-        if message_data_recieved.count() > 10:
-            paginator = Paginator(message_data_recieved, 10)
+        if message_data_received.count() > 5:
+            paginator = Paginator(message_data_received, 5)
             page = request.GET.get('page', 1)
             try:
-                message_data_recieved = paginator.page(page)
+                message_data_received = paginator.page(page)
             except EmptyPage:
-                message_data_recieved = paginator.page(paginator.num_pages)
+                message_data_received = paginator.page(paginator.num_pages)
 
-        if message_data_send.count() > 6:
-            paginator = Paginator(message_data_send, 6)
+        if message_data_send.count() > 5:
+            paginator = Paginator(message_data_send, 5)
             page = request.GET.get('page', 1)
             try:
                 message_data_send = paginator.page(page)
@@ -135,7 +137,7 @@ def notification(request):
         return render(request, 'Tracker/notifications.html',
                       {"page_name": "notifications",
                        "login_status": True,
-                       "message_recieved": message_data_recieved,
+                       "message_received": message_data_received,
                        "message_send": message_data_send,
                        "new_complaint": NewComplaintForm,
                        "to_departments": to_departments,
@@ -196,7 +198,7 @@ def ajax_mark_as_resolved(request):
     return HttpResponse("success")
 
 
-def ajax_delete_entry(request):
-    # complaint_id = int(request.POST.get('complaint_id', ''))
-    # TrackerMaster.objects.filter(id=complaint_id).delete()
-    return HttpResponse(5)
+def ajax_mark_as_read(request):
+    message_id = int(request.POST.get('messageID', ''))
+    ResponseMessage.objects.filter(id=message_id).update(status=2)
+    return HttpResponse("success")

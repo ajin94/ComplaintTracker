@@ -22,6 +22,7 @@
                 <h3>Complaint Responses</h3>
             </div>
         </div>
+
         <div class="cell large-offset-2 large-8">
             <ul class="tabs" data-active-collapse="true" data-tabs id="collapsing-tabs">
               <li class="tabs-title is-active"><a href="#inbox_items" aria-selected="true">Inbox</a></li>
@@ -36,17 +37,22 @@
                                 <th>Message From</th>
                                 <th>Response For</th>
                                 <th>Message</th>
+                                <th>Received On</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {% for message in message_recieved %}
+                            {% for message in message_received %}
                             <tr>
                                 <td>{{ message.from_department }}</td>
                                 <td>{{ message.response_to_complaint }}</td>
                                 <td>{{ message.message }}</td>
+                                <td>{{ message.created_date }}</td>
                                 {% if message.status == 1 %}
-                                <td><button class="mark_as_read" data-messageID="{{message.id}}">Mark as read</button></td>
+                                <td>
+                                    <button class="mark_as_read button small" type="button"
+                                            data-messageID="{{message.id}}">Mark as read</button>
+                                </td>
                                 {% else %}
                                 <td><b>Read</b></td>
                                 {% endif %}
@@ -85,6 +91,7 @@
                                 <th>Message To</th>
                                 <th>Response For</th>
                                 <th>Message</th>
+                                <th>Send On</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
@@ -94,6 +101,7 @@
                                 <td>{{ message.to_department }}</td>
                                 <td>{{ message.response_to_complaint }}</td>
                                 <td>{{ message.message }}</td>
+                                <td>{{ message.created_date }}</td>
                                 {% if message.status == 1 %}
                                 <td><b>Unread</b></td>
                                 {% else %}
